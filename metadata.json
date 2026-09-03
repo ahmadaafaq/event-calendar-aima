@@ -1,6 +1,6 @@
 {
   "name": "9th US-India Conference - AIMA & UC Santa Cruz",
-  "description": "Official event page for the 9th US-India Conference co-hosted by All India Management Association and UC Santa Cruz at Silicon Valley Campus, featuring dual-timezone agenda and calendar integration for Google, Outlook, and Apple Calendar.",
+  "description": "Official event page for the 9th US-India Conference co-hosted by All India Management Association and UC Santa Cruz at Silicon Valley Campus, Santa Clara, CA. Featuring event schedule, dual-timezone display, and calendar integration.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
