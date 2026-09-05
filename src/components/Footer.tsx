@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Globe, Calendar, ArrowUp, Shield } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Calendar, ArrowUp, Shield, Download, FileText } from 'lucide-react';
 
 interface FooterProps {
   onOpenCalendarModal: () => void;
@@ -30,12 +30,19 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              onClick={onOpenCalendarModal}
+            <a
+              href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
               className="px-6 py-2.5 rounded-xl bg-[#FFD100] hover:bg-yellow-400 text-[#002A5C] font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
             >
               <Calendar className="w-4 h-4 text-[#002A5C]" />
               <span>Add to Calendar</span>
+            </a>
+
+            <button
+              onClick={onOpenCalendarModal}
+              className="px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-[#002A5C] font-bold text-xs flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
+            >
+              <span>Other Calendar Options</span>
             </button>
           </div>
         </div>
@@ -112,6 +119,25 @@ export const Footer: React.FC<FooterProps> = ({
               Event Resources
             </h4>
             <ul className="space-y-1.5 text-slate-300">
+              <li>
+                <a
+                  href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
+                  className="hover:text-[#FFD100] transition-colors flex items-center gap-1 font-semibold text-white"
+                >
+                  <Calendar className="w-3.5 h-3.5 text-[#FFD100]" />
+                  <span>Add to Calendar (.ICS File)</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/download.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#FFD100] transition-colors"
+                >
+                  Standalone Calendar Page (/download.html)
+                </a>
+              </li>
               <li>
                 <button
                   onClick={onOpenCalendarModal}

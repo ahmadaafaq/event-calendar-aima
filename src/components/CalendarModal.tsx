@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, Clock, MapPin, Check, Download, ExternalLink, Globe, AlertCircle, Sparkles } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, Check, Download, ExternalLink, Globe, AlertCircle, Sparkles, Copy, FileText } from 'lucide-react';
 import {
   getGoogleCalendarUrl,
   getOutlookLiveUrl,
@@ -26,6 +26,7 @@ export const CalendarModal: React.FC<CalendarModalProps> = ({
 }) => {
   const [selectedItem, setSelectedItem] = useState<'full' | string>(selectedSessionId || 'full');
   const [copied, setCopied] = useState(false);
+  const [icsCopied, setIcsCopied] = useState(false);
 
   if (!isOpen) return null;
 
@@ -87,6 +88,16 @@ export const CalendarModal: React.FC<CalendarModalProps> = ({
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const icsUrl = 'https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics';
+
+  const handleCopyIcsUrl = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(icsUrl);
+      setIcsCopied(true);
+      setTimeout(() => setIcsCopied(false), 2500);
+    }
   };
 
   return (
@@ -330,6 +341,49 @@ export const CalendarModal: React.FC<CalendarModalProps> = ({
                 </div>
                 <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-[#004A8F]" />
               </a>
+            </div>
+
+            {/* Hosted .ICS Calendar File Link & Download Box */}
+            <div className="mt-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5 font-bold text-slate-800 text-xs">
+                  <FileText className="w-4 h-4 text-[#004A8F]" />
+                  <span>Direct Hosted .ICS Link (Shareable with Anyone)</span>
+                </div>
+                <span className="text-[10px] font-semibold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                  Publicly Hosted
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-slate-200 font-mono text-[11px] text-slate-600 mb-2.5">
+                <span className="truncate flex-1">https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics</span>
+                <button
+                  type="button"
+                  onClick={handleCopyIcsUrl}
+                  className="px-2.5 py-1 rounded bg-[#004A8F] text-white hover:bg-[#003669] font-sans font-bold flex items-center gap-1 shrink-0 cursor-pointer text-xs shadow-2xs"
+                >
+                  {icsCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{icsCopied ? 'Copied!' : 'Copy Direct Link'}</span>
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <a
+                  href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
+                  className="font-bold text-[#004A8F] hover:underline flex items-center gap-1"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download .ICS file directly</span>
+                </a>
+                <a
+                  href="/download.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-slate-800 underline flex items-center gap-0.5"
+                >
+                  <span>Standalone download page ↗</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>

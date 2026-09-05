@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin, Globe, Shield, Sparkles, Share2, Check, ExternalLink } from 'lucide-react';
+import { Calendar, Clock, MapPin, Globe, Shield, Sparkles, Share2, Check, ExternalLink, Download, Copy, FileText } from 'lucide-react';
 import { EVENT_DETAILS, formatInPDT, formatInIST, formatTimeInZone, calculateTimeRemaining } from '../utils/timezone';
 import { TimezoneMode } from '../types/conference';
 import { getGoogleCalendarUrl, getOutlookLiveUrl, downloadIcsFile } from '../utils/calendar';
@@ -17,6 +17,8 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const [countdown, setCountdown] = useState(calculateTimeRemaining(EVENT_DETAILS.startUTC));
   const [shareCopied, setShareCopied] = useState(false);
+  const [icsCopied, setIcsCopied] = useState(false);
+  const icsDownloadUrl = 'https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -31,6 +33,14 @@ export const Hero: React.FC<HeroProps> = ({
       navigator.clipboard.writeText(url);
       setShareCopied(true);
       setTimeout(() => setShareCopied(false), 2000);
+    }
+  };
+
+  const handleCopyIcsUrl = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(icsDownloadUrl);
+      setIcsCopied(true);
+      setTimeout(() => setIcsCopied(false), 2500);
     }
   };
 
@@ -95,18 +105,36 @@ export const Hero: React.FC<HeroProps> = ({
 
           {/* Primary Action Button Row */}
           <div className="flex flex-wrap gap-3 pt-3 justify-center items-center">
+            <a
+              id="hero-add-to-calendar-btn"
+              href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
+              className="px-7 py-3.5 rounded-xl bg-[#004A8F] hover:bg-[#003669] text-white font-bold text-base transition-all shadow-md hover:shadow-lg flex items-center gap-2.5 cursor-pointer"
+            >
+              <Calendar className="w-5 h-5 text-[#FFD100]" />
+              <span>Add to Calendar</span>
+            </a>
+
+            <button
+              id="hero-copy-ics-link-btn"
+              onClick={handleCopyIcsUrl}
+              className="px-4 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#002A5C] font-semibold text-sm border border-slate-300 transition-all flex items-center gap-2 shadow-xs cursor-pointer"
+              title="Copy .ICS file URL"
+            >
+              {icsCopied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4 text-[#004A8F]" />}
+              <span>{icsCopied ? 'Link Copied!' : 'Copy .ICS Link'}</span>
+            </button>
+
             <button
               id="hero-calendar-btn"
               onClick={onOpenCalendarModal}
-              className="px-6 py-3 rounded-xl bg-[#004A8F] hover:bg-[#003669] text-white font-bold text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer"
+              className="px-4 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer"
             >
-              <Calendar className="w-4 h-4 text-[#FFD100]" />
-              <span>Add to Calendar</span>
+              <span>Other Calendar Options</span>
             </button>
 
             <button
               onClick={handleShare}
-              className="px-4 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm border border-slate-200 transition-all shadow-xs cursor-pointer flex items-center gap-2"
+              className="px-4 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm border border-slate-200 transition-all shadow-xs cursor-pointer flex items-center gap-2"
               title="Copy conference link"
             >
               {shareCopied ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4 text-slate-500" />}
@@ -252,6 +280,50 @@ export const Hero: React.FC<HeroProps> = ({
                     </div>
                     <span className="text-[11px] font-bold text-slate-700">Apple</span>
                   </button>
+                </div>
+
+                {/* Hosted .ICS Calendar File Box */}
+                <div className="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-1.5 font-bold text-slate-800 text-[11px]">
+                      <FileText className="w-3.5 h-3.5 text-[#004A8F]" />
+                      <span>Direct Hosted .ICS Link</span>
+                    </div>
+                    <span className="text-[10px] font-semibold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">
+                      Direct Download
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 font-mono text-[10.5px] text-slate-600 mb-2">
+                    <span className="truncate flex-1">https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics</span>
+                    <button
+                      type="button"
+                      onClick={handleCopyIcsUrl}
+                      className="text-[#004A8F] hover:text-[#002A5C] font-semibold flex items-center gap-1 shrink-0 cursor-pointer text-[11px]"
+                      title="Copy full URL"
+                    >
+                      {icsCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{icsCopied ? 'Copied' : 'Copy'}</span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2 text-[11px]">
+                    <a
+                      href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
+                      className="inline-flex items-center gap-1.5 text-[#004A8F] font-bold hover:underline"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Add to Calendar (.ICS)</span>
+                    </a>
+                    <a
+                      href="/download.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-500 hover:text-slate-700 font-medium inline-flex items-center gap-1"
+                    >
+                      <span>Direct download page ↗</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

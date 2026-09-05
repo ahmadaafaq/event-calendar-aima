@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, Globe, MapPin, Menu, X, ExternalLink, ChevronDown, Check } from 'lucide-react';
+import { Calendar, Clock, Globe, MapPin, Menu, X, ExternalLink, ChevronDown, Check, Download } from 'lucide-react';
 import { TimezoneMode } from '../types/conference';
 import { formatTimeInZone } from '../utils/timezone';
 
@@ -162,26 +162,36 @@ export const Header: React.FC<HeaderProps> = ({
               )}
             </div>
 
-            {/* Add to Calendar Button */}
-            <button
+            {/* Add to Calendar Direct .ICS Button */}
+            <a
               id="header-calendar-button"
-              onClick={onOpenCalendarModal}
+              href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#004A8F] hover:bg-[#003669] text-white font-bold text-xs transition-all shadow-xs cursor-pointer"
             >
               <Calendar className="w-3.5 h-3.5 text-[#FFD100]" />
               <span>Add to Calendar</span>
+            </a>
+
+            {/* Other Calendar Options (Google/Outlook/Apple) */}
+            <button
+              id="header-options-button"
+              onClick={onOpenCalendarModal}
+              className="inline-flex items-center gap-1 px-2.5 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-[#002A5C] font-semibold text-xs transition-all border border-slate-200 shadow-2xs cursor-pointer"
+              title="View all calendar options (Google, Outlook, Apple)"
+            >
+              <span>More</span>
             </button>
           </div>
 
           {/* Mobile Menu Toggle */}
           <div className="flex md:hidden items-center gap-2">
-            <button
-              onClick={onOpenCalendarModal}
+            <a
+              href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
               className="p-2 rounded-md bg-[#004A8F] text-white text-xs font-semibold flex items-center gap-1"
-              title="Add to Calendar"
+              title="Add to Calendar (.ICS)"
             >
               <Calendar className="w-4 h-4 text-[#FFD100]" />
-            </button>
+            </a>
             <button
               id="mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -216,16 +226,23 @@ export const Header: React.FC<HeaderProps> = ({
               ))}
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 space-y-2">
+              <a
+                href="https://event-calendar-aima.vercel.app/9th-US-India-Conference-2026.ics"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 px-4 rounded-lg bg-[#004A8F] hover:bg-[#003669] text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+              >
+                <Calendar className="w-4 h-4 text-[#FFD100]" />
+                Add to Calendar
+              </a>
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenCalendarModal();
                 }}
-                className="w-full py-2.5 px-4 rounded-lg bg-[#004A8F] hover:bg-[#003669] text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 font-semibold text-sm text-center flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Calendar className="w-4 h-4 text-[#FFD100]" />
-                Add Event to Calendar
+                All Calendar Options (Google / Outlook)
               </button>
             </div>
           </div>
