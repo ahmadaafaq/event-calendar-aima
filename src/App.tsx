@@ -4,40 +4,34 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { TimezoneMode } from './types/conference';
-import { getBrowserTimezone, isIndianLocation } from './utils/timezone';
+import { EventWidget } from './components/EventWidget';
 
 export default function App() {
-  const [userTimezone, setUserTimezone] = useState<string>('America/Los_Angeles');
-  const [activeTimezone, setActiveTimezone] = useState<TimezoneMode>('DUAL');
+  const [isEmbedded, setIsEmbedded] = useState(false);
 
   useEffect(() => {
-    const detectedTz = getBrowserTimezone();
-    setUserTimezone(detectedTz);
-
-    // If user is accessing from India, default activeTimezone to INDIA_IST or DUAL
-    if (isIndianLocation(detectedTz)) {
-      setActiveTimezone('INDIA_IST');
+    // Detect if page is in an iframe or ?embed=true query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const inIframe = window.self !== window.top;
+    if (urlParams.get('embed') === 'true' || inIframe) {
+      setIsEmbedded(true);
     }
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-amber-500 selection:text-white">
-      {/* Clean Single Navigation Bar */}
-      <Header
-        activeTimezone={activeTimezone}
-        onChangeTimezone={setActiveTimezone}
-        userTimezone={userTimezone}
-      />
+    <div
+      className={`min-h-screen text-slate-900 flex flex-col justify-center items-center selection:bg-amber-500 selection:text-white ${
+        isEmbedded ? 'bg-transparent p-2 sm:p-3' : 'bg-slate-100/70 p-4 sm:p-6 lg:p-8'
+      }`}
+    >
+      {/* Background Subtle Accent Pattern (when not embedded) */}
+      {!isEmbedded && (
+        <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#004A8F_1px,transparent_1px)] [background-size:20px_20px]" />
+      )}
 
-      {/* Main Conference Content with Single-Click Calendar Options */}
-      <main className="flex-1">
-        <Hero
-          activeTimezone={activeTimezone}
-          userTimezone={userTimezone}
-        />
+      {/* Main Event Calendar Widget */}
+      <main className="w-full relative z-10 flex flex-col items-center">
+        <EventWidget />
       </main>
     </div>
   );
