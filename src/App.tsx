@@ -20,8 +20,8 @@ export default function App() {
 
   return (
     <div
-      className={`min-h-screen text-slate-900 flex flex-col justify-center items-center selection:bg-amber-500 selection:text-white ${
-        isEmbedded ? 'bg-transparent p-2 sm:p-3' : 'bg-slate-100/70 p-4 sm:p-6 lg:p-8'
+      className={`text-slate-900 flex flex-col justify-center items-center selection:bg-amber-500 selection:text-white ${
+        isEmbedded ? 'w-full min-h-0 bg-transparent p-1.5 sm:p-2' : 'min-h-screen bg-slate-100/70 p-4 sm:p-6 lg:p-8'
       }`}
     >
       {/* Background Subtle Accent Pattern (when not embedded) */}
