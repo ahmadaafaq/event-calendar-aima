@@ -141,6 +141,12 @@ export const EventWidget: React.FC = () => {
 
           {/* Right Column: Exactly the 4 Direct Calendar Buttons */}
           <div className="shrink-0 w-full md:w-auto md:min-w-[280px] lg:min-w-[320px] flex flex-col justify-center">
+            {/* Small 'Add to Calendar' label above buttons */}
+            <div className="flex items-center gap-1.5 mb-2 text-xs font-bold text-slate-700">
+              <Calendar className="w-3.5 h-3.5 text-[#004A8F]" />
+              <span>Add to calendar</span>
+            </div>
+
             {/* 4 Calendar Buttons Grid */}
             <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
               {/* 1. Apple Calendar / .ICS */}
