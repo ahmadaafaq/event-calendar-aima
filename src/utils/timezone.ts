@@ -5,14 +5,14 @@
  */
 
 export const EVENT_DETAILS = {
-  title: '9th US-INDIA CONFERENCE',
+  title: '9th US-India Conference',
   theme: 'US–India: Shaping the Next Global Turn',
-  coHosts: 'Co-hosted by All India Management Association (AIMA) and UC Santa Cruz',
-  venueName: 'UC Santa Cruz, Silicon Valley Campus',
+  coHosts: 'Co-hosted by AIMA and UC Santa Cruz, with support from the Consulate General of India, San Francisco',
+  venueName: 'UC Santa Cruz Silicon Valley Campus',
   venueAddress: '3175 Bowers Ave, Santa Clara, CA 95054, USA',
   startUTC: '2026-10-08T21:30:00Z', // 2:30 PM PDT (UTC-7)
   endUTC: '2026-10-09T03:45:00Z',   // 8:45 PM PDT (UTC-7)
-  description: `The 9th US-India Conference themed 'US–India: Shaping the Next Global Turn' gathers senior policymakers, industry captains, tech leaders, venture capitalists, and scholars. Co-hosted by All India Management Association (AIMA) and University of California, Santa Cruz (UCSC), and supported by the Consulate General of India, San Francisco. Coincides with AIMA's annual CEOs Delegation to Silicon Valley.`,
+  description: `Co-hosted by AIMA and UC Santa Cruz, with support from the Consulate General of India, San Francisco. Gathers senior policymakers, industry leaders, and investors — coincides with AIMA's annual CEOs Delegation to Silicon Valley.\n\nDetails: https://www.aima.in/events/9th-us-india-conference`,
 };
 
 /**

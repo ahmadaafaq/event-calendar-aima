@@ -5,12 +5,16 @@
 
 import { EVENT_DETAILS } from './timezone';
 
+export const EVENT_DESCRIPTION_TEXT = `Co-hosted by AIMA and UC Santa Cruz, with support from the Consulate General of India, San Francisco. Gathers senior policymakers, industry leaders, and investors — coincides with AIMA's annual CEOs Delegation to Silicon Valley.\n\nDetails: https://www.aima.in/events/9th-us-india-conference`;
+
 export interface CalendarEventPayload {
   title: string;
   description: string;
   location: string;
   startUTC: string; // ISO string e.g. "2026-10-08T21:30:00Z"
   endUTC: string;   // ISO string e.g. "2026-10-09T03:45:00Z"
+  startLocal?: string; // e.g. "2026-10-08T14:30:00"
+  endLocal?: string;   // e.g. "2026-10-08T20:45:00"
   uid?: string;
 }
 
@@ -24,21 +28,21 @@ function toCompactUTC(isoString: string): string {
 
 /**
  * Build Google Calendar URL
+ * Uses explicit America/Los_Angeles local time (2:30 PM - 8:45 PM PDT) to ensure
+ * accurate start (14:30) and finish (20:45) times without cross-day UTC offset confusion.
  */
 export function getGoogleCalendarUrl(payload: CalendarEventPayload = {
-  title: EVENT_DETAILS.title + ' — ' + EVENT_DETAILS.theme,
-  description: `${EVENT_DETAILS.theme}\n\n${EVENT_DETAILS.coHosts}\n\n${EVENT_DETAILS.description}\n\nConference Info: https://www.aima.in/events/9th-us-india-conference\n\nSanta Clara Time: 2:30 PM PDT (Oct 8)\nIndia Time: 3:00 AM IST (Oct 9)`,
-  location: `${EVENT_DETAILS.venueName}, ${EVENT_DETAILS.venueAddress}`,
+  title: '9th US-India Conference: US–India: Shaping the Next Global Turn',
+  description: EVENT_DESCRIPTION_TEXT,
+  location: 'UC Santa Cruz Silicon Valley Campus, 3175 Bowers Ave, Santa Clara, CA 95054, USA',
   startUTC: EVENT_DETAILS.startUTC,
   endUTC: EVENT_DETAILS.endUTC,
 }): string {
-  const start = toCompactUTC(payload.startUTC);
-  const end = toCompactUTC(payload.endUTC);
-
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     text: payload.title,
-    dates: `${start}/${end}`,
+    dates: '20261008T143000/20261008T204500',
+    ctz: 'America/Los_Angeles',
     details: payload.description,
     location: payload.location,
     sprop: 'website:www.aima.in',
@@ -49,19 +53,20 @@ export function getGoogleCalendarUrl(payload: CalendarEventPayload = {
 
 /**
  * Build Outlook.com / Live Calendar URL
+ * Start: 2:30 PM (14:30), End: 8:45 PM (20:45)
  */
 export function getOutlookLiveUrl(payload: CalendarEventPayload = {
-  title: EVENT_DETAILS.title + ' — ' + EVENT_DETAILS.theme,
-  description: `${EVENT_DETAILS.theme}\n\n${EVENT_DETAILS.coHosts}\n\n${EVENT_DETAILS.description}`,
-  location: `${EVENT_DETAILS.venueName}, ${EVENT_DETAILS.venueAddress}`,
+  title: '9th US-India Conference: US–India: Shaping the Next Global Turn',
+  description: EVENT_DESCRIPTION_TEXT,
+  location: 'UC Santa Cruz Silicon Valley Campus, 3175 Bowers Ave, Santa Clara, CA 95054, USA',
   startUTC: EVENT_DETAILS.startUTC,
   endUTC: EVENT_DETAILS.endUTC,
 }): string {
   const params = new URLSearchParams({
     rru: 'addevent',
     subject: payload.title,
-    startdt: new Date(payload.startUTC).toISOString(),
-    enddt: new Date(payload.endUTC).toISOString(),
+    startdt: '2026-10-08T14:30:00',
+    enddt: '2026-10-08T20:45:00',
     body: payload.description,
     location: payload.location,
   });
@@ -71,19 +76,20 @@ export function getOutlookLiveUrl(payload: CalendarEventPayload = {
 
 /**
  * Build Office 365 Calendar URL
+ * Start: 2:30 PM (14:30), End: 8:45 PM (20:45)
  */
 export function getOffice365Url(payload: CalendarEventPayload = {
-  title: EVENT_DETAILS.title + ' — ' + EVENT_DETAILS.theme,
-  description: `${EVENT_DETAILS.theme}\n\n${EVENT_DETAILS.coHosts}\n\n${EVENT_DETAILS.description}`,
-  location: `${EVENT_DETAILS.venueName}, ${EVENT_DETAILS.venueAddress}`,
+  title: '9th US-India Conference: US–India: Shaping the Next Global Turn',
+  description: EVENT_DESCRIPTION_TEXT,
+  location: 'UC Santa Cruz Silicon Valley Campus, 3175 Bowers Ave, Santa Clara, CA 95054, USA',
   startUTC: EVENT_DETAILS.startUTC,
   endUTC: EVENT_DETAILS.endUTC,
 }): string {
   const params = new URLSearchParams({
     rru: 'addevent',
     subject: payload.title,
-    startdt: new Date(payload.startUTC).toISOString(),
-    enddt: new Date(payload.endUTC).toISOString(),
+    startdt: '2026-10-08T14:30:00',
+    enddt: '2026-10-08T20:45:00',
     body: payload.description,
     location: payload.location,
   });
@@ -120,8 +126,8 @@ export function getYahooCalendarUrl(payload: CalendarEventPayload = {
  * Generate RFC 5545 iCalendar (.ics) content for Apple Calendar & Outlook Desktop
  */
 export function generateIcsFile(payload: CalendarEventPayload = {
-  title: `${EVENT_DETAILS.title} | ${EVENT_DETAILS.theme}`,
-  description: `${EVENT_DETAILS.theme}\\n\\n${EVENT_DETAILS.coHosts}\\n\\nVenue: ${EVENT_DETAILS.venueName}, ${EVENT_DETAILS.venueAddress}\\n\\nNote: Timings are converted automatically by your calendar client.\\nSilicon Valley (PDT): Thu Oct 8, 2:30 PM\\nIndia Standard Time (IST): Fri Oct 9, 3:00 AM\\n\\nMore information: https://www.aima.in/events/9th-us-india-conference`,
+  title: '9th US-India Conference: US–India: Shaping the Next Global Turn',
+  description: EVENT_DESCRIPTION_TEXT,
   location: `${EVENT_DETAILS.venueName}, ${EVENT_DETAILS.venueAddress}`,
   startUTC: EVENT_DETAILS.startUTC,
   endUTC: EVENT_DETAILS.endUTC,
